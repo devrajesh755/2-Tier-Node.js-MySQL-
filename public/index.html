@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow — 2-Tier App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- ── AUTH SCREEN ── -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-name">TaskFlow</span>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button class="tab" id="tab-register" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="form-login">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary" onclick="login()">Sign In →</button>
+        <p id="login-err" class="err-msg"></p>
+      </div>
+
+      <!-- Register Form -->
+      <div id="form-register" class="hidden">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="Jane Doe" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="min 6 characters" />
+        </div>
+        <button class="btn-primary" onclick="register()">Create Account →</button>
+        <p id="reg-err" class="err-msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD SCREEN ── -->
+  <div id="dashboard-screen" class="screen">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon">⬡</span>
+        <span class="brand-name">TaskFlow</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" onclick="filterTasks('all')">
+          <span class="nav-icon">◈</span> All Tasks
+          <span class="nav-badge" id="badge-all">0</span>
+        </button>
+        <button class="nav-item" onclick="filterTasks('todo')">
+          <span class="nav-icon">○</span> To Do
+          <span class="nav-badge" id="badge-todo">0</span>
+        </button>
+        <button class="nav-item" onclick="filterTasks('in_progress')">
+          <span class="nav-icon">◑</span> In Progress
+          <span class="nav-badge" id="badge-inprogress">0</span>
+        </button>
+        <button class="nav-item" onclick="filterTasks('done')">
+          <span class="nav-icon">●</span> Done
+          <span class="nav-badge" id="badge-done">0</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="user-avatar" id="user-avatar">?</div>
+          <div>
+            <div class="user-name" id="user-name-display">—</div>
+            <div class="user-role" id="user-role-display">—</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <h1 class="page-title" id="page-title">All Tasks</h1>
+          <p class="page-sub" id="page-sub">Manage your work</p>
+        </div>
+        <button class="btn-add" onclick="openModal()">+ New Task</button>
+      </div>
+
+      <div id="task-list" class="task-grid"></div>
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">◈</div>
+        <p>No tasks here yet.<br/>Hit <strong>+ New Task</strong> to get started.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── MODAL ── -->
+  <div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">New Task</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="task-title" placeholder="What needs to be done?" />
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="task-desc" rows="3" placeholder="Optional details..."></textarea>
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="task-status">
+          <option value="todo">To Do</option>
+          <option value="in_progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <p id="modal-err" class="err-msg"></p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" id="modal-save-btn" onclick="saveTask()">Save Task</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

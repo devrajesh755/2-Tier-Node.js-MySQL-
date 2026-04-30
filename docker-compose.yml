@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_nodejs
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: twotier_db
+    
+    volumes:
+      - ./mysql_data_new:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - taskflow_net
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost","-uroot","-padmin"]
+      interval: 10s
+      retries: 5
+      start_period: 60s
+      timeout: 5s
+  nodejs:
+    build:
+      context: .
+    container_name: taskflow_app
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: twotier_db
+      SESSION_SECRET: supersecretkey
+    ports:
+      - "3000:3000"
+    networks:
+      - taskflow_net
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+volumes:
+  mysql_data_new:
+networks:
+  taskflow_net:

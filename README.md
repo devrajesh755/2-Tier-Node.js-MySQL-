@@ -1,5 +1,8 @@
+## Project URL 
+ https://github.com/devrajesh755/2-Tier-Node.js-MySQL-
+ 
 # ⬡ TaskFlow — 2-Tier Node.js + MySQL Application
-
+ 
 A production-ready **2-Tier Architecture** task management app:
 
 | Tier | Technology | Responsibility |
@@ -265,8 +268,7 @@ Run `npm run db:init` and `npm start` as usual.
 
 ---
 
-## Project URL 
- https://github.com/devrajesh755/2-Tier-Node.js-MySQL-
+
 ## 📜 License
 
 MIT — free to use and modify.
